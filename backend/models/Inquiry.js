@@ -1,18 +1,35 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const InquirySchema = new mongoose.Schema({
   name: { type: String, required: true },
-  groupType: { type: String, enum: ['Individual', 'Group'], required: true },
+  groupType: { type: String, enum: ["Individual", "Group"], required: true },
   contactNo: { type: String, required: true },
   college: { type: String, required: true },
-  gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
+  gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
   course: { type: String, required: true },
   courseYear: { type: String, required: true },
-  enquiryFor: { type: String, enum: ['Hostel', 'Mess', 'Coaching'], required: true },
-  enquiryDetail: { type: String, required: true },
+  enquiryFor: {
+    type: String,
+    enum: ["Hostel", "Mess", "Coaching", "College Enquiry"],
+    required: true,
+  },
+  enquiryDetail: {
+    type: String,
+    required: function () {
+      return this.enquiryFor !== "College Enquiry";
+    },
+  },
+  designation: { type: String },
+  reason: { type: String },
+  groupMembers: [
+    {
+      name: { type: String },
+      phone: { type: String },
+    },
+  ],
   createdAt: { type: Date, default: Date.now },
   responded: { type: Boolean, default: false },
   response: { type: String },
 });
 
-export default mongoose.model('Inquiry', InquirySchema); 
+export default mongoose.model("Inquiry", InquirySchema);
