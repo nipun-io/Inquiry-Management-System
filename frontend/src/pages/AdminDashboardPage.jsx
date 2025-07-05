@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InquiryTable from '../components/InquiryTable.jsx';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 const API_URL = import.meta.env.VITE_BACKEND_URL
 
 export default function AdminDashboardPage() {
@@ -41,7 +42,7 @@ export default function AdminDashboardPage() {
       });
       fetchInquiries();
     } catch (err) {
-      alert('Failed to mark as resolved.');
+      toast.error('Failed to mark as resolved.');
     }
   };
 

@@ -42,20 +42,17 @@ export default function ContactCard() {
       }}>Contact Us</h2>
       <div style={rowStyle}>
         <LocationOnIcon style={iconStyle} />
-        <span style={textStyle}>32, Avenue ve Newyork<br />321994 Newyork</span>
+        <span style={textStyle}> Plot No 8, Commercial Zone, Manak Vihaar, Patel Nagar, Bhopal, Madhya Pradesh, India </span>
       </div>
       <div style={rowStyle}>
         <EmailIcon style={iconStyle} />
-        <span style={textStyle}>hello@loremipsum.com</span>
+        <span style={textStyle}>info.indeyes@gmail.com</span>
       </div>
       <div style={rowStyle}>
         <PhoneIcon style={iconStyle} />
-        <span style={textStyle}>+3356 1589 2105</span>
+        <span style={textStyle}>+91 96911607165</span>
       </div>
-      <div style={rowStyle}>
-        <PrintIcon style={iconStyle} />
-        <span style={textStyle}>+3356 1589 2100</span>
-      </div>
+
     </div>
   );
 } 
