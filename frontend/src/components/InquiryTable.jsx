@@ -71,6 +71,26 @@ export default function InquiryTable({ inquiries, onResolve, loading }) {
     return match;
   });
 
+  const handleGroupCountChange = (e) => {
+    let value = e.target.value;
+    // Allow empty string for typing
+    if (value === '') {
+      setGroupCount('');
+      setGroupMembers([]);
+      return;
+    }
+    let count = parseInt(value, 10);
+    if (isNaN(count)) return;
+    if (count < 1) count = 1;
+    if (count > 5) count = 5;
+    setGroupCount(count);
+    setGroupMembers((prev) => {
+      const arr = [...prev];
+      while (arr.length < count) arr.push({ name: '', phone: '' });
+      return arr.slice(0, count);
+    });
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <InquiryDetailsModal open={modalOpen} onClose={() => setModalOpen(false)} inquiry={selectedInquiry} />

@@ -14,10 +14,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logo from './assets/logo2.jpg';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+
 
 // Custom theme matching your color palette
 const customTheme = createTheme({
@@ -38,6 +40,21 @@ const customTheme = createTheme({
 });
 
 export default function App() {
+  useEffect(() => {
+    let cancelled = false;
+    const ping = async () => {
+      try {
+        await axios.get(import.meta.env.VITE_BACKEND_URL + '/api/keepalive');
+      } catch (e) {
+        // ignore errors
+      }
+      if (!cancelled) {
+        setTimeout(ping, 14 * 60 * 1000); // 1 second for testing, use 14 * 60 * 1000 for production
+      }
+    };
+    ping();
+    return () => { cancelled = true; };
+  }, []);
   return (
     <ThemeProvider theme={customTheme}>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
@@ -76,7 +93,7 @@ function AppContent() {
             style={{
               width: 'auto',
               height: 40,
-             
+
               objectFit: 'contain',
               marginRight: 16,
               background: '#fff',

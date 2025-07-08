@@ -46,7 +46,7 @@ export default function InquiryForm() {
   const [showOtherCoaching, setShowOtherCoaching] = useState(false);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [groupCount, setGroupCount] = useState(1);
+  const [groupCount, setGroupCount] = useState('1');
   const [groupMembers, setGroupMembers] = useState([]);
 
   const handleChange = (e) => {
@@ -75,16 +75,24 @@ export default function InquiryForm() {
       setForm((prev) => ({ ...prev, enquiryDetail: 'Mess' }));
     }
     if (name === 'groupType' && value !== 'Group') {
-      setGroupCount(1);
+      setGroupCount('1');
       setGroupMembers([]);
     }
   };
 
   const handleGroupCountChange = (e) => {
-    let count = parseInt(e.target.value, 10);
-    if (isNaN(count) || count < 1) count = 1;
+    let value = e.target.value;
+    // Allow empty string for typing
+    if (value === '') {
+      setGroupCount('');
+      setGroupMembers([]);
+      return;
+    }
+    let count = parseInt(value, 10);
+    if (isNaN(count)) return;
+    if (count < 1) count = 1;
     if (count > 5) count = 5;
-    setGroupCount(count);
+    setGroupCount(String(count));
     setGroupMembers((prev) => {
       const arr = [...prev];
       while (arr.length < count) arr.push({ name: '', phone: '' });
@@ -131,7 +139,7 @@ export default function InquiryForm() {
       });
       setSubOptions([]);
       setShowOtherCoaching(false);
-      setGroupCount(1);
+      setGroupCount('1');
       setGroupMembers([]);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Submission failed.');
